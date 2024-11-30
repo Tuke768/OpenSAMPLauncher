@@ -1,0 +1,32 @@
+name: Build with Gradle
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Pode usar 'windows-latest' ou 'macos-latest' se necessário
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'  # Escolha a versão do Java que você está usando
+          distribution: 'adopt'  # Outras opções incluem 'temurin', 'zulu', etc.
+
+      - name: Permitir execução do Gradle
+        run: chmod +x ./gradlew  # Dá permissão de execução ao gradlew
+
+      - name: Build do projeto
+        run: ./gradlew build  # Ou qualquer outro comando Gradle, como 'test' ou 'clean build'
+
+      - name: Testes
+        run: ./gradlew test  # Se houver testes automatizados
